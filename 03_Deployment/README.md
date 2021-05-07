@@ -73,8 +73,25 @@ ps. Dukannst mit `kubectl rollout restart deployment hello` auch mal alle deine 
 Tipp: `kubectl rollout ...`
 
 ## 5. Erweiterte Konfiguration
+Öffne dein `deployment.yaml` und ergänze eine Liveness sowie Readiness Probe am Ende des Deployments:
+
+```yaml
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 5
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 5
+```
+
+Prüfe mit `kubectl get pod` den Rollout. Was stellst du fest? Siehst du etwas in den Events (`kubectl get events`)?
 
 ## 6. Ressourcen (CPU/Memory) beschränken
+Konfigurire mit Hilfe der weiterführenden Links ein CPU Limit von `100m` und ein Memory Limit von `100Mi`. Was passiert, wenn du das Memory Limit auf bspw. `5m` senkst?
 
 ## Weiterführende Links
 * https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
