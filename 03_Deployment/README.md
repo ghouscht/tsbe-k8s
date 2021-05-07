@@ -50,4 +50,32 @@ Lösche mit `kubectl delete pod ...` einen der 3 hello Pods, was passiert danach
 ## 2. Verbindung zum *hello* Webserver herstellen
 Suche mit `kubectl get pod -l app=hello -o wide` eine IP von einem der drei *hello* Pods. Bspw. *10.127.0.141*.
 
-Falls noch ein Busybox Pod in deinem Namespace läuft öffne eine interaktive Shell in diesem Pod, falls nicht starte einen neuen Busybox Pod mit einer Shell. Führe in der Shell folgendes aus: `wget http://10.127.0.141:80`. **Achtung:** Du musst natürlich die IP auf eine deiner IPs anpassen.
+Öffne nun eine interaktive Shell in einem anderen hello Pod und versuche teste mit cURL ob du eine Verbindung zu einem anderen Pod herstellen kannst: `curl http://10.0.0.27` **Achtung:** Du musst natürlich die IP auf eine deiner IPs anpassen.
+
+Teste ausserdem ob in deinem hello Pod auch das folgende cURL Kommando funktioniert: `curl https://kubernetes.default.svc.cluster.local/version -k`.
+
+Was siehst du hier? Von wem kommt diese Antwort? Verlasse die interaktive Shell im hello Pod nun wieder.
+
+## 3. Deployment updaten
+Verwende `kubectl edit deployment ...` um dein hello Deployment anzupassen. Du kannst Beispielsweise mal die `replicas` ändern oder den Tag vom nginx Image. Beobachte mit folgenden Befehlen was passiert:
+
+* `kubectl rollout status deployment hello`
+* `kubectl get pod`
+* `kubectl get event`
+* `kubectl get replicasets.apps`
+
+
+ps. Dukannst mit `kubectl rollout restart deployment hello` auch mal alle deine Pods neu starten und das ganze beobachten.
+
+## 4. Deployment rollback
+Ändere mit `kubectl edit deployment ...` das Image von `nginx:1.20.0-alpine` auf `nginx:i-do-not-exist`. Beobachte wieder was passiert, mit den Kommandos aus Punkt 3. Mache anschliessend mit kubectl die Änderung rückgängig (rollback). 
+
+Tipp: `kubectl rollout ...`
+
+## 5. Erweiterte Konfiguration
+
+## 6. Ressourcen (CPU/Memory) beschränken
+
+## Weiterführende Links
+* https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/
+* https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
