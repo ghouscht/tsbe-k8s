@@ -31,7 +31,7 @@ Du solltest nun bspw. folgende DNS Namen auflösen können:
 Erstelle eine neue Datei `ingress.yaml`:
 
 **Wichtig: Ersetze *gosteli* durch deinen Nachnamen!**
-```
+```yaml
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
